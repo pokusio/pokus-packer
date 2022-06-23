@@ -1,0 +1,76 @@
+{
+    "builders": [
+      {
+        "boot_command": [
+          "<esc><wait>",
+          "/install/vmlinuz<wait>",
+          " initrd=/install/initrd.gz",
+          " auto-install/enable=true",
+          " debconf/priority=critical",
+          " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/debian/bullseye/amd_64/preseed.cfg",
+          "packer_fileserver_ip={{ .HTTPIP }}",
+          "packer_fileserver_port={{ .HTTPPort }}",
+          "golang_version=1.18.3",
+          "hugo_version=0.100.2",
+          "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
+          "hostname={{user `hostname`}} ",
+          " -- <wait>",
+          "<enter><wait>"
+        ],
+        "boot_wait": "10s",
+        "guest_os_type": "Debian_64",
+        "disk_size": 10000,
+        "http_directory": "http_directory",
+        "http_port_max": 9001,
+        "http_port_min": 9001,
+        "iso_checksum": "sha256:7892981e1da216e79fb3a1536ce5ebab157afdd20048fe458f2ae34fbc26c19b",
+        "iso_url": "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-11.3.0-amd64-netinst.iso",
+        "shutdown_command": "echo {{user `ssh_pass`}} | sudo -S shutdown -P now",
+        "ssh_password": "{{user `ssh_pass`}}",
+        "ssh_timeout": "20m",
+        "ssh_username": "{{user `ssh_name`}}",
+        "type": "virtualbox-iso",
+        "vboxmanage": [
+          [
+            "modifyvm",
+            "{{.Name}}",
+            "--vram",
+            "32"
+          ]
+        ]
+      }
+    ],
+    "variables": {
+      "hostname": "packer-test",
+      "ssh_name": "pokus",
+      "ssh_pass": "pokus",
+      "boot_command": "<esc><wait>install <wait> preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `preseed_path`}} <wait>debian-installer=en_US.UTF-8 <wait>auto <wait>locale=en_US.UTF-8 <wait>kbd-chooser/method=us <wait>keyboard-configuration/xkb-keymap=us <wait>netcfg/get_hostname={{ .Name }} <wait>netcfg/get_domain=vagrantup.com <wait>fb=false <wait>debconf/frontend=noninteractive <wait>console-setup/ask_detect=false <wait>console-keymaps-at/keymap=us <wait>grub-installer/bootdev=default <wait><enter><wait>",
+    },
+    "variables": {
+      "box_basename": "debian-11.3",
+      "build_directory": "../../builds",
+      "build_timestamp": "{{isotime \"20060102150405\"}}",
+      "cpus": "2",
+      "disk_size": "65536",
+      "git_revision": "__unknown_git_revision__",
+      "guest_additions_url": "",
+      "headless": "",
+      "http_directory": "{{template_dir}}/http",
+      "http_proxy": "{{env `http_proxy`}}",
+      "https_proxy": "{{env `https_proxy`}}",
+      "iso_checksum": "7892981e1da216e79fb3a1536ce5ebab157afdd20048fe458f2ae34fbc26c19b",
+      "iso_name": "debian-11.3.0-amd64-netinst.iso",
+      "memory": "1024",
+      "mirror": "http://cdimage.debian.org/cdimage/release",
+      "mirror_directory": "11.3.0/amd64/iso-cd",
+      "name": "debian-11.3",
+      "no_proxy": "{{env `no_proxy`}}",
+      "preseed_path": "debian-9/preseed.cfg",
+      "qemu_display": "none",
+      "qemu_bios": "bios-256k.bin",
+      "template": "debian-11.3-amd64",
+      "boot_command": "<esc><wait>install <wait> preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `preseed_path`}} <wait>debian-installer=en_US.UTF-8 <wait>auto <wait>locale=en_US.UTF-8 <wait>kbd-chooser/method=us <wait>keyboard-configuration/xkb-keymap=us <wait>netcfg/get_hostname={{ .Name }} <wait>netcfg/get_domain=vagrantup.com <wait>fb=false <wait>debconf/frontend=noninteractive <wait>console-setup/ask_detect=false <wait>console-keymaps-at/keymap=us <wait>grub-installer/bootdev=default <wait><enter><wait>",
+      "version": "TIMESTAMP"
+    }
+  }
+  

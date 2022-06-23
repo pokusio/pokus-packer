@@ -1,0 +1,13 @@
+output-virtualbox-iso/
+outpout*/
+output-virtualbox-iso-ubuntu_64/
+*.vmdk
+**/*.vmdk
+*.iso
+**/*.iso
+*.vdi
+**/*.vdi
+
+
+pokusbox_library/
+packer_cache/
