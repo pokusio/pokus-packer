@@ -40,12 +40,42 @@
             "modifyvm",
             "{{.Name}}",
             "--vram",
-            "32"
+            "96"
+          ],
+          [
+            "modifyvm",
+            "{{.Name}}",
+            "--nic1",
+            "bridged"
+          ],
+          [
+            "modifyvm",
+            "{{.Name}}",
+            "--bridgeadapter1",
+            "{{.Name_TPlink_Bridge_Interface}}"
+          ],
+          [
+            "modifyvm",
+            "{{.Name}}",
+            "--nic2",
+            "bridged"
+          ],
+          [
+            "modifyvm",
+            "{{.Name}}",
+            "--bridgeadapter2",
+            "{{.Name_Ethernet_Bridge_Interface}}"
           ]
+          // Name_TPlink_Bridge_Interface
+          // Name_Ethernet_Bridge_Interface
+          // VBoxManage modifyvm "${VM_NAME}" --nic$NETWORK_INDEX bridged
+          // VBoxManage modifyvm "${VM_NAME}" --bridgeadapter$NETWORK_INDEX "${NAME_ETHERNET_BRIDGE_INTERFACE}"
         ]
       }
     ],
     "variables": {
+      "Name_TPlink_Bridge_Interface": "TP-Link Wireless USB Adapter",
+      "Name_Ethernet_Bridge_Interface": "Intel(R) Ethernet Connection I217-LM",
       "build_directory": "pokusbox_library",
       "hostname": "pokus-packer-test",
       "ssh_name": "pokus",
