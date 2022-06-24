@@ -3,18 +3,22 @@
       {
         "boot_command": [ 
           "<esc><wait>install <wait>",
-          " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `preseed_path`}}",
-          " <wait>debian-installer=en_US.UTF-8 <wait>",
-          "auto <wait>locale=en_US.UTF-8 <wait>",
-          "kbd-chooser/method=us <wait>",
-          "keyboard-configuration/xkb-keymap=us <wait>",
-          "netcfg/get_hostname={{ .Name }} <wait>",
+          "preseed/url=http://{{ user `PackerHostIPAddrWifi` }}:{{ .HTTPPort }}/{{user `preseed_path`}} <wait>",
+          "debian-installer=en_US.UTF-8 <wait>",
+          "auto=true <wait>",
+          "priority=critical  <wait>",
+          "interface=enp0s3 <wait>",
+          "netcfg/get_hostname=pokusio-{{ .Name }} <wait>",
           "netcfg/get_domain=pokusup.com <wait>",
+          "locale=en_US.UTF-8 <wait>",
+          "kbd-chooser/method=us <wait>",
+          "keyboard-configuration/xkb-keymap=fr <wait>",
           "fb=false <wait>",
           "debconf/frontend=noninteractive <wait>",
           "console-setup/ask_detect=false <wait>",
           "console-keymaps-at/keymap=fr <wait>",
           "grub-installer/bootdev=default ",
+          "PACKER_AUTHORIZED_KEY={{ .SSHPublicKey | urlquery }}<enter>",
           "{{ user `boot_command_env_addon` }}",
           " <wait><enter><wait>"
         ],
@@ -32,6 +36,7 @@
         "ssh_username": "{{user `ssh_name`}}",
         "ssh_password": "{{user `ssh_pass`}}",
         "ssh_port": 22,
+        "ssh_host": "{{ user `CreatedVmIPAddr` }}",
         "ssh_timeout": "10000s",
         "shutdown_command": "echo {{user `ssh_pass`}} | sudo -S shutdown -P now",
         "type": "virtualbox-iso",
@@ -52,7 +57,7 @@
             "modifyvm",
             "{{.Name}}",
             "--bridgeadapter1",
-            "{{.Name_TPlink_Bridge_Interface}}"
+            "{{ user `Name_TPlink_Bridge_Interface`}}"
           ],
           [
             "modifyvm",
@@ -64,16 +69,15 @@
             "modifyvm",
             "{{.Name}}",
             "--bridgeadapter2",
-            "{{.Name_Ethernet_Bridge_Interface}}"
+            "{{ user `Name_Ethernet_Bridge_Interface` }}"
           ]
-          // Name_TPlink_Bridge_Interface
-          // Name_Ethernet_Bridge_Interface
-          // VBoxManage modifyvm "${VM_NAME}" --nic$NETWORK_INDEX bridged
-          // VBoxManage modifyvm "${VM_NAME}" --bridgeadapter$NETWORK_INDEX "${NAME_ETHERNET_BRIDGE_INTERFACE}"
         ]
       }
     ],
     "variables": {
+      "CreatedVmIPAddr": "192.168.164.196",
+      "PackerHostIPAddr": "192.168.1.101",
+      "PackerHostIPAddrWifi": "192.168.164.236",
       "Name_TPlink_Bridge_Interface": "TP-Link Wireless USB Adapter",
       "Name_Ethernet_Bridge_Interface": "Intel(R) Ethernet Connection I217-LM",
       "build_directory": "pokusbox_library",
