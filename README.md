@@ -1,5 +1,19 @@
 # Packer Virtual Box
 
+## Install Packer
+
+Windows : 
+
+```PowerShell
+# -------- 
+# we want packer 1.6.6 because of
+# https://github.com/hashicorp/packer/issues/11115 , see : 
+# https://github.com/hashicorp/packer/issues/11115#issuecomment-909385009
+# --------
+# 
+choco install packer --version=1.6.6
+```
+
 
 This is a repo to design different very useful VM images
 
@@ -34,9 +48,9 @@ packer build --force ./debian_bullseye_64/debian_hugo_64.json
 export PACKER_LOG=1
 export PACKER_LOG_FILE=debian_hugo_64.logs
 
-packer hcl2_upgrade ./debian_bullseye_64/debian_hugo_64.json
-# packer build --force ./debian_bullseye_64/debian_hugo_64.json
 packer build --force ./debian_bullseye_64/debian_hugo_64.json.pkr.hcl
+# packer hcl2_upgrade ./debian_bullseye_64/debian_hugo_64.json
+# packer build --force ./debian_bullseye_64/debian_hugo_64.json
 
 ```
 
@@ -67,3 +81,7 @@ As mentioned in [this issue](https://github.com/hashicorp/packer/issues/3757#iss
   * with a `json` build configuration file, ssh_host does not seem to work... i will convert to `hcl` then test everything again with `ssh_host`, see https://www.packer.io/docs/commands/init and [`hcl2_upgrade`](https://www.packer.io/docs/commands/hcl2_upgrade)
 
   * find `ssh_host` in https://www.packer.io/plugins/builders/virtualbox/iso
+
+
+* Using Packer `1.6.6` to fix issue https://github.com/hashicorp/packer/issues/11115 , see https://github.com/hashicorp/packer/issues/11115#issuecomment-909385009
+

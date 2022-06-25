@@ -1,4 +1,5 @@
 {
+  "min_packer_version":"1.6.6",
     "builders": [
       {
         "boot_command": [ 
@@ -33,8 +34,8 @@
         "iso_url": "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-11.3.0-amd64-netinst.iso",
         "memory": "{{ user `memory` }}",
         "output_directory": "{{ user `build_directory` }}/packer-{{user `os_cpu_arch_reference`}}-iso",
-        "ssh_username": "{{user `ssh_name`}}",
-        "ssh_password": "{{user `ssh_pass`}}",
+        "ssh_username": "{{ user `ssh_name`}}",
+        "ssh_password": "{{ user `ssh_pass`}}",
         "ssh_port": 22,
         "ssh_host": "{{ user `CreatedVmIPAddr` }}",
         "ssh_timeout": "10000s",
@@ -74,8 +75,14 @@
         ]
       }
     ],
+    "provisioners":[
+      {
+        "script": "{{template_dir}}/scripts/retrieve-ipaddr.sh",
+        "type": "shell"
+      }
+    ],
     "variables": {
-      "CreatedVmIPAddr": "192.168.164.196",
+      "CreatedVmIPAddr": "192.168.164.34",
       "PackerHostIPAddr": "192.168.1.101",
       "PackerHostIPAddrWifi": "192.168.164.236",
       "Name_TPlink_Bridge_Interface": "TP-Link Wireless USB Adapter",
