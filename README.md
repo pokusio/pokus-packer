@@ -156,3 +156,33 @@ netstat -anobq > ./netstat.logs
 * Using Packer `1.6.6` to fix issue https://github.com/hashicorp/packer/issues/11115 , see https://github.com/hashicorp/packer/issues/11115#issuecomment-909385009
 
 
+
+
+
+<!-- 
+
+./packer_virtualbox/documentation/virtualbox-knowledge/vbox-create-vm/get-vbox-vm-ipaddr.sh
+./packer_virtualbox/documentation/virtualbox-knowledge/vbox-create-vm/get-vbox-vm-ipaddr.sh
+VBoxManage.exe list vms
+export VBOX_VM_NAME="packer-virtualbox-iso-1656203734"
+./packer_virtualbox/documentation/virtualbox-knowledge/vbox-create-vm/get-vbox-vm-ipaddr.sh
+arp -av
+ssh pokus@192.168.164.37
+export VBOX_VM_NAME="packer-virtualbox-iso-1656203734"
+VBoxManage.exe list vms
+./packer_virtualbox/documentation/virtualbox-knowledge/vbox-create-vm/get-vbox-vm-ipaddr.sh
+ssh pokus@192.168.164.37
+arp -av
+arp -av
+arp -av
+arp -av
+history | grep details
+history | grep detail
+arp
+export VBOX_VM_NAME="packer-virtualbox-iso-1656204881"
+./packer_virtualbox/documentation/virtualbox-knowledge/vbox-create-vm/get-vbox-vm-ipaddr.sh
+arp -av
+arp -a
+history
+
+-->
