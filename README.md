@@ -11,6 +11,7 @@ Windows :
 # https://github.com/hashicorp/packer/issues/11115#issuecomment-909385009
 # --------
 # 
+# choco uninstall packer
 choco install packer --version=1.6.6
 ```
 
@@ -42,15 +43,79 @@ packer build --force ./debian_bullseye_64/debian_hugo_64.json
 
 ```
 
-* and witgh HCL insread of JSON : 
+* and with HCL insread of JSON : 
 
 ```bash
 export PACKER_LOG=1
 export PACKER_LOG_FILE=debian_hugo_64.logs
 
-packer build --force ./debian_bullseye_64/debian_hugo_64.json.pkr.hcl
 # packer hcl2_upgrade ./debian_bullseye_64/debian_hugo_64.json
-# packer build --force ./debian_bullseye_64/debian_hugo_64.json
+packer build --force ./debian_bullseye_64/debian_hugo_64.json.pkr.hcl
+```
+
+## GEtting the guest VM IP Address to ssh into
+
+```bash
+# in git bash on windows
+
+export PATH="${PATH}:/c/jibl_vbox/install"
+vboxmanage --version
+
+# --- 
+export VBOX_VM_NAME=${VBOX_VM_NAME:-"packer-virtualbox-iso-1656194566"}
+
+vboxmanage showvminfo ${VBOX_VM_NAME} | grep Ethernet | awk -F 'MAC:' '{print $2}' | awk -F ',' '{print $1}' | awk '{print $1}'
+
+export VM_MAC_ADDRESS=$(VBoxManage showvminfo ${VBOX_VM_NAME} | grep Ethernet | awk -F 'MAC:' '{print $2}' | awk -F ',' '{print $1}' | awk '{print $1}')
+
+
+# foo=string
+# for (( i=0; i<${#foo}; i++ )); do
+#   echo "${foo:$i:1}"
+# done
+
+export FMT_VM_MAC_ADDRESS=""
+for (( i=0; i<${#VM_MAC_ADDRESS}; i++ )); do
+  export CURRENT_DIGIT="${VM_MAC_ADDRESS:$i:1}"
+  echo "${CURRENT_DIGIT}"
+  export FMT_VM_MAC_ADDRESS="${FMT_VM_MAC_ADDRESS}${CURRENT_DIGIT}"
+  if ! [ `expr $i % 2` == 0 ]; then
+    echo "the current index is ODD : [$i]"
+    echo "therefore we add the hyphen separator"
+    export FMT_VM_MAC_ADDRESS="${FMT_VM_MAC_ADDRESS}-"
+  else 
+    echo "the current index is even : [$i]"
+    echo "therefore we do nothign just continue to next iteration"
+  fi;
+  # everything to lower case 
+  export FMT_VM_MAC_ADDRESS=(echo "${FMT_VM_MAC_ADDRESS}" | tr '[:upper:]' '[:lower:]')
+  echo "# -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- #"
+  echo "# -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- #"
+  echo "# -+- -+- On iteration #[]"
+  echo "# -+- -+-  The formated VM Mac Address is :"
+  echo "    ${FMT_VM_MAC_ADDRESS}"
+  echo "# -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- #"
+  echo "# -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- #"
+
+done
+
+
+echo "  >>> -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- <<< "
+echo "  >>> -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- <<< "
+echo "  >>> -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- <<< "
+echo "  >>> -+- -+-  AFTER FORMATING MAC ADDRESS : "
+echo "  >>> -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- <<< "
+echo "  >>> -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- <<< "
+echo "  >>> -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- <<< "
+
+
+echo "  -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- "
+echo "  -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- "
+echo "  -+- VM_MAC_ADDRESS=[${VM_MAC_ADDRESS}]"
+echo "  -+- FMT_VM_MAC_ADDRESS=[${FMT_VM_MAC_ADDRESS}]"
+echo "  -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- "
+echo "  -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- "
+
 
 ```
 
@@ -65,10 +130,15 @@ As mentioned in [this issue](https://github.com/hashicorp/packer/issues/3757#iss
 
 
 
+## ANNEX C: MS-DOS commands
 
 
+```Msdos
+netstat -anobq > ./netstat.logs
+```
 
-## ANNEX C: References
+
+## ANNEX D: References
 
 
 * https://www.packer.io/guides/automatic-operating-system-installs/preseed_ubuntu
@@ -84,4 +154,5 @@ As mentioned in [this issue](https://github.com/hashicorp/packer/issues/3757#iss
 
 
 * Using Packer `1.6.6` to fix issue https://github.com/hashicorp/packer/issues/11115 , see https://github.com/hashicorp/packer/issues/11115#issuecomment-909385009
+
 
