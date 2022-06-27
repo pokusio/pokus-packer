@@ -57,6 +57,25 @@ packer validate -var-file=./debian_bullseye_64/debian_hugo_64.json.vars.json ./d
 
 ```
 
+Now :
+
+* to discover my VirtualBox Host Network Interface, i run : 
+
+```bash
+./documentation/virtualbox-knowledge/vbox-create-vm/get-vbox-host-net-interface.sh
+
+```
+
+* to discover my VirtualBox VM IP Adress, i run : 
+
+```bash
+
+./documentation/virtualbox-knowledge/vbox-create-vm/get-vbox-vm-ipaddr.sh
+
+```
+
+* note that `./documentation/virtualbox-knowledge/vbox-create-vm/create-vm-usb-wifi-net-adapter.sh` script purpose is to test the `vboxmanage modifyvm` commands to create the network interfaces of the VM
+
 <!--
 
 Migrating to HCL is a bit of work, so i leave that aside, i want to stay focused on my first goal: obtaining a fully working packer build.
