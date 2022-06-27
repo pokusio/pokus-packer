@@ -19,41 +19,82 @@ choco install packer --version=1.6.6
 This is a repo to design different very useful VM images
 
 
-### How tobuild images
+## How to build images
 
 
-#### Unbuntu 64
+### Unbuntu 64
 
 ```bash
 packer build --force ./ubuntu_64/ubuntu_64.json
 ```
 
 
-#### Debian 64
+### Debian 64
 
 ```bash
 packer build --force ./debian_bullseye_64/debian_hugo_64.json
+
 ```
-or with verbose logs : 
+
+or with verbose/debug logs : 
 
 ```bash 
 export PACKER_LOG=1
 export PACKER_LOG_FILE=debian_hugo_64.logs
 packer build --force ./debian_bullseye_64/debian_hugo_64.json
 
+# -- unfortunaltely: 
+# + I have to use packer 1.6.6 , to be able to use 'ssh_host' variable
+# + but with packer 1.6.6 , there are issues using a 
+#   separate packer variables dedicated file 
+#   (a json files containing only variables), 
+#   see https://github.com/hashicorp/packer/pull/8914
+# ---
+# 
+packer build -var-file ./debian_bullseye_64/debian_hugo_64.json.vars.json --force ./debian_bullseye_64/debian_hugo_64.novars.json
+
+packer validate -var-file=./debian_bullseye_64/debian_hugo_64.json.vars.json ./debian_bullseye_64/debian_hugo_64.novars.json
+
 ```
 
-* and with HCL insread of JSON : 
+<!--
+
+Migrating to HCL is a bit of work, so i leave that aside, i want to stay focused on my first goal: obtaining a fully working packer build.
+
+* and with HCL insread of JSON  : 
 
 ```bash
 export PACKER_LOG=1
 export PACKER_LOG_FILE=debian_hugo_64.logs
 
-# packer hcl2_upgrade ./debian_bullseye_64/debian_hugo_64.json
+# $ packer hcl2_upgrade ./debian_bullseye_64/debian_hugo_64.json
+# Successfully created ./debian_bullseye_64/debian_hugo_64.json.pkr.hcl
+# 
+# ---
+# See https://discuss.hashicorp.com/t/working-json-breaks-after-hcl2-upgrade-error-variables-not-allowed/21220/3
+# ---
+# 
+# --- <+> --- #
+# --- <+> --- See ANNEX A. Json 2 HCL Upgrade  #
+# --- <+> --- #
+# 
+# ---
+# 
+
 packer build --force ./debian_bullseye_64/debian_hugo_64.json.pkr.hcl
 ```
+ -->
 
-## GEtting the guest VM IP Address to ssh into
+## Getting the guest VM IP Address to ssh into
+
+You may also have run into this issue : 
+* packer is trying to ssh into the VM it created, 
+* but it is trying that using a wrong IP Address
+* and packer stays in the loop trying to ssh intot he VM, until it reaches the timeout.
+
+
+I personnally ran into this issue, because i want to 
+
 
 ```bash
 # in git bash on windows
@@ -119,7 +160,64 @@ echo "  -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- "
 
 ```
 
-## ANNEX A: Configuring the network on Virtual Box side
+
+## ANNEX A. Json 2 HCL Upgrade
+
+After executing `packer hcl2_upgrade <json packer file>`, I try and run again the packer build, using the new fresh HCL file.
+
+It immediately gives me an error :
+
+```bash
+$ packer build --force ./debian_bullseye_64/debian_hugo_64.json.pkr.hcl
+Error: Variables not allowed
+
+  on ./debian_bullseye_64/debian_hugo_64.json.pkr.hcl line 57, in variable "boot_command_env_addon":
+  57:   default = "packer_fileserver_ip={{ .HTTPIP }} packer_fileserver_port={{ .HTTPPort }} hostname=${var.hostname} golang_version=1.18.3 hugo_version=0.100.2"
+
+Variables may not be used here.
+
+```
+
+So here i use a variable `${var.hostname}` and it is not allowed : I replaced that occurence by a raw value, `packerpokus.io`
+
+After that, i run again the packer build, and i get new errors : 
+
+```
+$ packer build --force ./debian_bullseye_64/debian_hugo_64.json.pkr.hcl
+Error: Incorrect attribute value type
+
+  on ./debian_bullseye_64/debian_hugo_64.json.pkr.hcl line 136:
+  (source code not available)
+
+Inappropriate value for attribute "memory": a number is required.
+
+Error: Incorrect attribute value type
+
+  on ./debian_bullseye_64/debian_hugo_64.json.pkr.hcl line 129:
+  (source code not available)
+
+Inappropriate value for attribute "disk_size": a number is required.
+
+Error: Incorrect attribute value type
+
+  on ./debian_bullseye_64/debian_hugo_64.json.pkr.hcl line 128:
+  (source code not available)
+
+Inappropriate value for attribute "cpus": a number is required.
+
+
+
+==> Wait completed after 0 seconds
+
+==> Builds finished but no artifacts were created.
+```
+
+
+* https://discuss.hashicorp.com/t/working-json-breaks-after-hcl2-upgrade-error-variables-not-allowed/21220
+* https://bailey.st/2020/11/01/packer-virtualbox-builder-from-json-to-hcl.html
+
+
+## ANNEX B: Configuring the network on Virtual Box side
 
 
 I have one issue : 

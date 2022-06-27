@@ -12,7 +12,9 @@ output-virtualbox-iso-ubuntu_64/
 pokusbox_library/
 packer_cache/
 
-
+# --- <+> --- #
+# --- <+> --- #
+# --- <+> --- #
 # packer builds logs
 *.logs
-
+*.spit
