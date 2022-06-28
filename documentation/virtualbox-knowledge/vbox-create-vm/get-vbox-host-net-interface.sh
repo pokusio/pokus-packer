@@ -1,7 +1,6 @@
 #!/bin/bash
 
 
-
 # ---
 # In git bash on windows 
 # --

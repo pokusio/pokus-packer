@@ -1,0 +1,21 @@
+{
+  "name": "packer_virtualbox",
+  "version": "1.0.0",
+  "description": "Windows :",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "bash ./.npm.scripts/ops/dev.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pokusio/pokus-packer.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pokusio/pokus-packer/issues"
+  },
+  "homepage": "https://github.com/pokusio/pokus-packer#readme"
+}

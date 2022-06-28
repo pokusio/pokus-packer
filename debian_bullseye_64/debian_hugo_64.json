@@ -82,9 +82,9 @@
       }
     ],
     "variables": {
-      "CreatedVmIPAddr": "192.168.164.34",
-      "PackerHostIPAddr": "192.168.1.101",
-      "PackerHostIPAddrWifi": "192.168.98.236",
+      "CreatedVmIPAddr": "{{env `POKUS_CREATED_VM_IPADDR`}}",
+      "PackerHostIsolatedLanIPAddr": "{{env `POKUS_PACKER_HOST_ISOLATED_LAN_IPADDR`}}",
+      "PackerHostIPAddrWifi": "{{env `POKUS_PACKER_HOST_IPADDR_WIFI`}}",
       "Name_TPlink_Bridge_Interface": "TP-Link Wireless USB Adapter",
       "Name_Ethernet_Bridge_Interface": "Intel(R) Ethernet Connection I217-LM",
       "build_directory": "pokusbox_library",

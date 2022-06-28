@@ -1,13 +1,23 @@
 #!/bin/bash
 
 
-
 # ---
 # In git bash on windows 
 # --
 # Should work fine on most GNU/Linux Distribs, wih only a few changes on arp command options
 # --
+# How to use : 
+# - execute the script in Git Bash for Windows
+# - if the execution completes without error, then a file ahs been generated, containign the chased IPv4 address 
+# - you can set the 'POKUS_SPIT_FILE' env. var. to set the path to the generated file
 # 
+
+
+
+export POKUS_SPIT_FILE_DEFAULT='./.vbox.vm.ipv4.spit'
+export POKUS_SPIT_FILE=${POKUS_SPIT_FILE:-"${POKUS_SPIT_FILE_DEFAULT}"}
+
+
 export PATH="${PATH}:/c/jibl_vbox/install"
 vboxmanage --version
 
@@ -251,17 +261,6 @@ vboxmanage --version
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 clearWindowsARPCache () {
   netsh interface IP delete arpcache
 }
@@ -285,14 +284,43 @@ pingIpAddressNeighbors () {
     unset COMP4_INCR
     unset NEIGHBOR_IP_ADDRESS
   done
-  for VARIABLE in {1..17}
+
+  # --- 
+  #  PING Right side of neighboorhood
+  # --- 
+  for ITERATION in {1..17}
   do
     # unset COMP4_INCR
     # unset NEIGHBOR_IP_ADDRESS
-    export COMP4_INCR=$(( ${COMP4} + ITERATION ))  
+    # --
+    # break the loop before we reach 255 (254 actually), on right neighboor of "${COMP1}.${COMP2}.${COMP3}.${COMP4}"
+    if [ ${COMP4} -ge 254 ]; then
+      break;
+    fi;
+    export COMP4_INCR=$(( ${COMP4} + ${ITERATION} ))  
     export NEIGHBOR_IP_ADDRESS="${COMP1}.${COMP2}.${COMP3}.${COMP4_INCR}"
     ping -n 4 ${NEIGHBOR_IP_ADDRESS}
   done
+
+  # --- 
+  #  PING Left side of neighboorhood
+  # --- 
+  for ITERATION in {1..17}
+  do
+    # unset COMP4_INCR
+    # unset NEIGHBOR_IP_ADDRESS
+    # --
+    # break the loop before we reach zero, on left neighboor of "${COMP1}.${COMP2}.${COMP3}.${COMP4}"
+    if [ ${COMP4} -le $(( ${ITERATION} + 1 )) ]; then
+      break;
+    fi;
+
+    export COMP4_INCR=$(( ${COMP4} - ${ITERATION} ))
+    export NEIGHBOR_IP_ADDRESS="${COMP1}.${COMP2}.${COMP3}.${COMP4_INCR}"
+    ping -n 4 ${NEIGHBOR_IP_ADDRESS}
+  done
+
+
   # export COMP4_INCR=$(( ${COMP4} + 1 ))
   # export ASSIGNED_LOCAL_IP_ADDRESS="${COMP1}.${COMP2}.${COMP3}.${COMP4_INCR}"
 
@@ -372,6 +400,9 @@ echo "  -+- VM_IP_ADDR=[${VM_IP_ADDR}]"
 echo "  -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- "
 echo "  -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- "
 
+# -- 
+
+exit 0
 
 export COMP1=$(echo ${VM_IP_ADDR} | awk  -F '.' '{print $1}')
 export COMP2=$(echo ${VM_IP_ADDR} | awk  -F '.' '{print $2}')
@@ -391,7 +422,7 @@ echo "  -+- ASSIGNED_LOCAL_IP_ADDRESS=[${ASSIGNED_LOCAL_IP_ADDRESS}]"
 echo "  -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- "
 echo "  -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- "
 
-exit 0
+
 
 arp -s 192.168.164.29   ${FMT_VM_MAC_ADDRESS}
 export FMT_VM_MAC_ADDRESS="08-00-27-21-5b-5b"

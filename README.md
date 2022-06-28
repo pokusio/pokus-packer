@@ -76,6 +76,26 @@ Now :
 
 * note that `./documentation/virtualbox-knowledge/vbox-create-vm/create-vm-usb-wifi-net-adapter.sh` script purpose is to test the `vboxmanage modifyvm` commands to create the network interfaces of the VM
 
+### Debian 64 (Reloaded)
+
+```bash
+./documentation/virtualbox-knowledge/vbox-create-vm/.pokus.env.sh
+
+unset POKUS_PACKER_HOST_IPADDR_WIFI
+unset POKUS_PACKER_HOST_ISOLATED_LAN_IPADDR
+
+source ./documentation/virtualbox-knowledge/vbox-create-vm/.pokus.env
+
+echo "POKUS_PACKER_HOST_IPADDR_WIFI=[${POKUS_PACKER_HOST_IPADDR_WIFI}]"
+echo "POKUS_PACKER_HOST_ISOLATED_LAN_IPADDR=[${POKUS_PACKER_HOST_ISOLATED_LAN_IPADDR}]"
+
+export PACKER_LOG=1
+export PACKER_LOG_FILE=debian_hugo_64.logs
+packer build --force ./debian_bullseye_64/debian_hugo_64.json
+
+# Sourcing the pokus env file sets environment variables used in the packer build
+```
+
 <!--
 
 Migrating to HCL is a bit of work, so i leave that aside, i want to stay focused on my first goal: obtaining a fully working packer build.
@@ -272,8 +292,8 @@ netstat -anobq > ./netstat.logs
 
 * Using Packer `1.6.6` to fix issue https://github.com/hashicorp/packer/issues/11115 , see https://github.com/hashicorp/packer/issues/11115#issuecomment-909385009
 
-
-
+* Packer user variables from Environment variables : https://www.packer.io/docs/templates/legacy_json_templates/user-variables#environment-variables
+* Packer user variables from Vault Secrets (very important) : https://www.packer.io/docs/templates/legacy_json_templates/user-variables#vault-variables
 
 
 <!-- 
