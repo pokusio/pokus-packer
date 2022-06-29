@@ -4,9 +4,9 @@
   "description": "Windows :",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "scan": "bash ./.npm.scripts/ops/utils/windows/get-vbox-vm-ipaddr.sh",
-    "dev": "bash ./.npm.scripts/ops/dev.sh"
+    "packer:test": "echo \"Error: no test specified\" && exit 1",
+    "packer:build:dev": "bash ./.npm.scripts/ops/dev.sh",
+    "packer:vm:scan:dev": "bash ./.npm.scripts/ops/utils/windows/get-vbox-vm-ipaddr.sh"
   },
   "repository": {
     "type": "git",

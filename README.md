@@ -78,23 +78,18 @@ Now :
 
 ### Debian 64 (Reloaded)
 
+* Packer build the Virtual Box images : 
+
 ```bash
-./.npm.scripts/ops/utils/windows/.pokus.env.sh
-
-unset POKUS_PACKER_HOST_IPADDR_WIFI
-unset POKUS_PACKER_HOST_ISOLATED_LAN_IPADDR
-
-source ./.npm.scripts/ops/utils/windows/.pokus.env
-
-echo "POKUS_PACKER_HOST_IPADDR_WIFI=[${POKUS_PACKER_HOST_IPADDR_WIFI}]"
-echo "POKUS_PACKER_HOST_ISOLATED_LAN_IPADDR=[${POKUS_PACKER_HOST_ISOLATED_LAN_IPADDR}]"
-
-export PACKER_LOG=1
-export PACKER_LOG_FILE=debian_hugo_64.logs
-packer build --force ./debian_bullseye_64/debian_hugo_64.json
-
-# Sourcing the pokus env file sets environment variables used in the packer build
+npm run packer:build:dev
 ```
+
+* When the VM has restarted, and `GNU/Linux Debian` is waiting for user login, execute in another git bash session : 
+
+```bash
+npm run packer:vm:scan:dev
+```
+
 
 <!--
 
