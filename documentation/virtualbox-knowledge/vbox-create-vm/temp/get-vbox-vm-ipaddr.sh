@@ -97,7 +97,7 @@ vboxmanage --version
 # 
 # 
 # Utilisateur@Utilisateur-PC MINGW64 ~
-# $ ./packer_virtualbox/documentation/virtualbox-knowledge/vbox-create-vm/get-vbox-vm-ipaddr.sh
+# $ ./packer_virtualbox/.npm.scripts/ops/utils/windows/get-vbox-vm-ipaddr.sh
 #   >>> -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- <<<
 #   >>> -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- <<<
 #   >>> -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- <<<

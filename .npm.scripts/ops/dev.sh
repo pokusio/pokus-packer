@@ -1,11 +1,12 @@
 #!/bin/bash
 
-./documentation/virtualbox-knowledge/vbox-create-vm/.pokus.env.sh
+./.npm.scripts/ops/utils/windows/.pokus.env.sh
+# ./packer_virtualbox./.npm.scripts/ops/utils/windows/
 
 unset POKUS_PACKER_HOST_IPADDR_WIFI
 unset POKUS_PACKER_HOST_ISOLATED_LAN_IPADDR
 
-source ./documentation/virtualbox-knowledge/vbox-create-vm/.pokus.env
+source ./.npm.scripts/ops/utils/windows/.pokus.env
 
 echo "POKUS_PACKER_HOST_IPADDR_WIFI=[${POKUS_PACKER_HOST_IPADDR_WIFI}]"
 echo "POKUS_PACKER_HOST_ISOLATED_LAN_IPADDR=[${POKUS_PACKER_HOST_ISOLATED_LAN_IPADDR}]"

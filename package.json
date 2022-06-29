@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "scan": "bash ./.npm.scripts/ops/utils/windows/get-vbox-vm-ipaddr.sh",
     "dev": "bash ./.npm.scripts/ops/dev.sh"
   },
   "repository": {

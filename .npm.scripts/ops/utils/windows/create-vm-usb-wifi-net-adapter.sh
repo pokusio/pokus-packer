@@ -80,10 +80,10 @@ export VM_NETNAME3=vm_netname3
 # $ VBoxManage list bridgedifs | grep -E -A7 '*TP-Link*' | grep GUID | awk '{print $2}'
 # 3f7ac2f7-d65b-4f03-b195-1fe59b66a8cd
 # 
-# Utilisateur@Utilisateur-PC MINGW64 ~/packer_virtualbox/documentation/virtualbox-knowledge/vbox-create-vm (develop)
+# Utilisateur@Utilisateur-PC MINGW64 ~/packer_virtualbox/.npm.scripts/ops/utils/windows (develop)
 # $ export GUID_TPLINK_BRIDGE_INTERFACE=$(VBoxManage list bridgedifs | grep -E -A7 '*TP-Link*' | grep GUID | awk '{print $2}')
 # 
-# Utilisateur@Utilisateur-PC MINGW64 ~/packer_virtualbox/documentation/virtualbox-knowledge/vbox-create-vm (develop)
+# Utilisateur@Utilisateur-PC MINGW64 ~/packer_virtualbox/.npm.scripts/ops/utils/windows (develop)
 # $ echo "GUID_TPLINK_BRIDGE_INTERFACE=[${GUID_TPLINK_BRIDGE_INTERFACE}]"
 # GUID_TPLINK_BRIDGE_INTERFACE=[3f7ac2f7-d65b-4f03-b195-1fe59b66a8cd]
 

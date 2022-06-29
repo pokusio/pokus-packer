@@ -62,7 +62,7 @@ Now :
 * to discover my VirtualBox Host Network Interface, i run : 
 
 ```bash
-./documentation/virtualbox-knowledge/vbox-create-vm/get-vbox-host-net-interface.sh
+./.npm.scripts/ops/utils/windows/get-vbox-host-net-interface.sh
 
 ```
 
@@ -70,21 +70,21 @@ Now :
 
 ```bash
 
-./documentation/virtualbox-knowledge/vbox-create-vm/get-vbox-vm-ipaddr.sh
+./.npm.scripts/ops/utils/windows/get-vbox-vm-ipaddr.sh
 
 ```
 
-* note that `./documentation/virtualbox-knowledge/vbox-create-vm/create-vm-usb-wifi-net-adapter.sh` script purpose is to test the `vboxmanage modifyvm` commands to create the network interfaces of the VM
+* note that `./.npm.scripts/ops/utils/windows/create-vm-usb-wifi-net-adapter.sh` script purpose is to test the `vboxmanage modifyvm` commands to create the network interfaces of the VM
 
 ### Debian 64 (Reloaded)
 
 ```bash
-./documentation/virtualbox-knowledge/vbox-create-vm/.pokus.env.sh
+./.npm.scripts/ops/utils/windows/.pokus.env.sh
 
 unset POKUS_PACKER_HOST_IPADDR_WIFI
 unset POKUS_PACKER_HOST_ISOLATED_LAN_IPADDR
 
-source ./documentation/virtualbox-knowledge/vbox-create-vm/.pokus.env
+source ./.npm.scripts/ops/utils/windows/.pokus.env
 
 echo "POKUS_PACKER_HOST_IPADDR_WIFI=[${POKUS_PACKER_HOST_IPADDR_WIFI}]"
 echo "POKUS_PACKER_HOST_ISOLATED_LAN_IPADDR=[${POKUS_PACKER_HOST_ISOLATED_LAN_IPADDR}]"
@@ -298,16 +298,16 @@ netstat -anobq > ./netstat.logs
 
 <!-- 
 
-./packer_virtualbox/documentation/virtualbox-knowledge/vbox-create-vm/get-vbox-vm-ipaddr.sh
-./packer_virtualbox/documentation/virtualbox-knowledge/vbox-create-vm/get-vbox-vm-ipaddr.sh
+./packer_virtualbox/.npm.scripts/ops/utils/windows/get-vbox-vm-ipaddr.sh
+./packer_virtualbox/.npm.scripts/ops/utils/windows/get-vbox-vm-ipaddr.sh
 VBoxManage.exe list vms
 export VBOX_VM_NAME="packer-virtualbox-iso-1656203734"
-./packer_virtualbox/documentation/virtualbox-knowledge/vbox-create-vm/get-vbox-vm-ipaddr.sh
+./packer_virtualbox/.npm.scripts/ops/utils/windows/get-vbox-vm-ipaddr.sh
 arp -av
 ssh pokus@192.168.164.37
 export VBOX_VM_NAME="packer-virtualbox-iso-1656203734"
 VBoxManage.exe list vms
-./packer_virtualbox/documentation/virtualbox-knowledge/vbox-create-vm/get-vbox-vm-ipaddr.sh
+./packer_virtualbox/.npm.scripts/ops/utils/windows/get-vbox-vm-ipaddr.sh
 ssh pokus@192.168.164.37
 arp -av
 arp -av
@@ -317,7 +317,7 @@ history | grep details
 history | grep detail
 arp
 export VBOX_VM_NAME="packer-virtualbox-iso-1656204881"
-./packer_virtualbox/documentation/virtualbox-knowledge/vbox-create-vm/get-vbox-vm-ipaddr.sh
+./packer_virtualbox/.npm.scripts/ops/utils/windows/get-vbox-vm-ipaddr.sh
 arp -av
 arp -a
 history
