@@ -4,6 +4,8 @@
   "description": "Windows :",
   "main": "index.js",
   "scripts": {
+    "stack:versions": "bash ./.npm.scripts/ops/utils/windows/stack-versions.sh",
+    "stack": "npm run stack:versions",
     "packer:test": "echo \"Error: no test specified\" && exit 1",
     "packer:build:dev": "bash ./.npm.scripts/ops/dev.sh",
     "packer:vm:scan:dev": "bash ./.npm.scripts/ops/utils/windows/get-vbox-vm-ipaddr.sh"

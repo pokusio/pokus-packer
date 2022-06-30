@@ -289,7 +289,9 @@ netstat -anobq > ./netstat.logs
 
 * Packer user variables from Environment variables : https://www.packer.io/docs/templates/legacy_json_templates/user-variables#environment-variables
 * Packer user variables from Vault Secrets (very important) : https://www.packer.io/docs/templates/legacy_json_templates/user-variables#vault-variables
-
+* About the issue of installing `arpjs` npm package, because of node-gyp, see : 
+  * https://stackoverflow.com/questions/57879150/how-can-i-solve-error-gypgyp-errerr-find-vsfind-vs-msvs-version-not-set-from-c
+  * and https://github.com/nodejs/node-gyp#on-windows
 
 <!-- 
 
