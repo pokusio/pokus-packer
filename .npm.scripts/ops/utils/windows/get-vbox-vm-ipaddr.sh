@@ -527,10 +527,136 @@ sleep 2s
 resolveVBoxVMIpv4Address
 echo ''
 echo ''
-export RGIHT_IP_ADDRESS=$(cat ${POKUS_SPIT_FILE})
+export RIGHT_IP_ADDRESS=$(cat ${POKUS_SPIT_FILE})
 echo "# --- # --- #"
-echo "  RGIHT_IP_ADDRESS=[${RGIHT_IP_ADDRESS}]"
+echo "  RIGHT_IP_ADDRESS=[${RIGHT_IP_ADDRESS}]"
 echo "# --- # --- #"
+
+
+# ------
+# -- Now let's configure etc hosts on windows so that SSH communicator successfully connects to the VM
+# 
+# export POKUS_CREATED_VM_IPADDR="192.168.98.12"
+export WINDOWS_ETC_HOSTS_PATH=${WINDOWS_ETC_HOSTS_PATH:-"/c/Windows/System32/Drivers/etc/hosts"}
+export POKUS_CREATED_VM_IPADDR=${POKUS_CREATED_VM_IPADDR:-"vm.pokusbox.io"}
+# export POKUS_CREATED_VM_IPADDR="vm.pokusbox.io"
+
+
+# -- backup before any modification of ~/.ssh/known_hosts
+if [ -f ~/.ssh/known_hosts.bak.pokus ]; then
+  echo "a previous [~/.ssh/known_hosts.bak.pokus]"
+  echo "backup already existed, it prevails"
+else 
+  cp ~/.ssh/known_hosts ~/.ssh/known_hosts.bak.pokus
+fi;
+
+
+# ------
+# --- Removing both hostname (POKUS_CREATED_VM_IPADDR) and IP addess of VM (RIGHT_IP_ADDRESS)
+cat ~/.ssh/known_hosts | grep -v ${POKUS_CREATED_VM_IPADDR} | tee ~/.ssh/known_hosts
+cat ~/.ssh/known_hosts | grep -v ${RIGHT_IP_ADDRESS} | tee ~/.ssh/known_hosts
+
+# ------
+# --- Adding both hostname (POKUS_CREATED_VM_IPADDR) and IP addess of VM (RIGHT_IP_ADDRESS)
+
+ssh-keyscan -H ${POKUS_CREATED_VM_IPADDR} | tee -a ~/.ssh/known_hosts
+ssh-keyscan -H ${RIGHT_IP_ADDRESS} | tee -a ~/.ssh/known_hosts
+
+
+
+
+# -- backup before any modification of ${WINDOWS_ETC_HOSTS_PATH}
+if [ -f ${WINDOWS_ETC_HOSTS_PATH}.bak.pokus ]; then
+  echo "a previous [${WINDOWS_ETC_HOSTS_PATH}.bak.pokus]"
+  echo "backup already existed, it prevails"
+else 
+  cp ${WINDOWS_ETC_HOSTS_PATH} ${WINDOWS_ETC_HOSTS_PATH}.bak.pokus
+fi;
+
+# removing prvious entries
+cat ${WINDOWS_ETC_HOSTS_PATH} | grep -v ${POKUS_CREATED_VM_IPADDR} | tee ${WINDOWS_ETC_HOSTS_PATH}
+# resetting new entry
+# echo "${RIGHT_IP_ADDRESS}      vm.pokusbox.io" | tee -a ${WINDOWS_ETC_HOSTS_PATH}
+echo "${RIGHT_IP_ADDRESS}      ${POKUS_CREATED_VM_IPADDR}" | tee -a ${WINDOWS_ETC_HOSTS_PATH}
+
+# export POKUS_CREATED_VM_IPADDR="vm.pokusbox.io"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 exit 0
 
 export COMP1=$(echo ${VM_IP_ADDR} | awk  -F '.' '{print $1}')
