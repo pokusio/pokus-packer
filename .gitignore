@@ -19,3 +19,6 @@ packer_cache/
 *.logs
 *.spit
 .*.env
+
+
+node_modules
