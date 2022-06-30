@@ -293,6 +293,8 @@ netstat -anobq > ./netstat.logs
   * https://stackoverflow.com/questions/57879150/how-can-i-solve-error-gypgyp-errerr-find-vsfind-vs-msvs-version-not-set-from-c
   * and https://github.com/nodejs/node-gyp#on-windows
   * https://github.com/node-pcap/node_pcap/issues/224#issuecomment-310177406
+  * but using cap instead of arpjs does not make disappear the central problem, which is the windows system and the WinPCap / npcap installed windows libraries... (in th end complexity is on windows) : https://github.com/mscdex/cap/issues/83
+  * node-gyp on windows : https://github.com/nodejs/node-gyp/issues/1709#issuecomment-479848736
 
 <!-- 
 

@@ -42,6 +42,15 @@ cp -fR ./.here_i_have_it/WpdPack/Include/* $LOCALAPPDATA/Microsoft/MSBuild/Inclu
 cp -fR ./.here_i_have_it/WpdPack/Lib/* $LOCALAPPDATA/Microsoft/MSBuild/Lib
 
 
+
+# ---
+# Npcap installation
+
+curl -LO https://npcap.com/dist/npcap-1.70.exe
+curl -LO https://npcap.com/dist/npcap-0.991.exe
+
+# Now to silenty rn the npcap-1.70.exe (an msi installer), see https://npcap.com/guide/npcap-users-guide.html#:~:text=Installs%20Npcap%20without%20showing%20any,available%20only%20for%20Npcap%20OEM.&text=The%20default%20for%20this%20option%20is%20yes%20%2C%20so%20the%20installer,installation%20independent%20from%20this%20option.
+
 # ---
 # Shell profile addon 
 

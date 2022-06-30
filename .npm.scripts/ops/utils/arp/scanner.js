@@ -1,5 +1,29 @@
-// var arp = require('arpjs');
-var arp = require('cap');
+/**
+ * ----------------------------------
+ *   VERY IMPORTANT !!!!!
+ * ----------------------------------
+ * To run this you MUST : 
+ * 
+ * Install Python3 on Windows
+ * 
+ * npm i -g node-gyp
+ * 
+ * install npcap version 0.991 , using the MSI installer [curl -LO https://npcap.com/dist/npcap-0.991.exe]
+ * 
+ * npmi --save cap
+ * 
+ * Then rebuild the cap dependencies in 'node_modules/' so that it picks up the npcap you just installed : 
+ * 
+ *   cd node_modules/cap 
+ *   node-gyp configure rebuild
+ *   cd ../../
+ * 
+ * And finally run this script : 
+ * 
+ * $ npm run packeer:net:arp:dev
+ * 
+ */
+ 
 
 const NEIGHBOORHOOD_CENTER = process.env.POKUS_NEIGHBOORHOOD_CENTER_IPADDR || '192.168.98.202'
 let src_ip_addr = '10.105.50.100'
@@ -38,10 +62,39 @@ arp.send({
 
 var Cap = require('cap').Cap;
 var c = new Cap();
-var device = Cap.findDevice('192.168.1.200'); /// that's the target IP i want to ping
+/**
+ * Oh my god!!! if th IP Address does not exists in Cap.findDevice('192.168.98.236');
+ * then device will take a non string value
+ * which will throw an Error like : 
+ * C:\Users\Utilisateur\packer_virtualbox\.npm.scripts\ops\utils\arp\scanner.js:51
+ *    var linkType = c.open(device, filter, bufSize, buffer);
+ *                     ^
+ *    
+ *    TypeError: device must be a string
+ *        at Object.<anonymous> (C:\Users\Utilisateur\packer_virtualbox\.npm.scripts\ops\utils\arp\scanner.js:51:18)
+ *        at Module._compile (node:internal/modules/cjs/loader:1112:14)
+ *        at Module._extensions..js (node:internal/modules/cjs/loader:1166:10)
+ *        at Module.load (node:internal/modules/cjs/loader:988:32)
+ *        at Module._load (node:internal/modules/cjs/loader:834:12)
+ *        at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:77:12)
+ *        at node:internal/main/run_main_module:17:47
+ *    
+ *    Node.js v18.4.0
+ *    
+ */
+var device = Cap.findDevice('192.168.98.236'); /// that's the target IP i want to ping
 var filter = 'arp';
 var bufSize = 10 * 1024 * 1024;
 var buffer = Buffer.alloc(65535);
+
+
+/*
+console.dir(`JBL ----`)
+console.dir(Cap.deviceList())
+console.dir(`JBL ---- NOW INSPECT : `)
+console.log(require('util').inspect(Cap.deviceList(), false, Infinity))
+console.dir(`JBL ----`)
+*/
 
 var linkType = c.open(device, filter, bufSize, buffer);
 
@@ -50,7 +103,7 @@ var linkType = c.open(device, filter, bufSize, buffer);
 var buffer = Buffer.from([
     // ETHERNET
     0xff, 0xff, 0xff, 0xff, 0xff,0xff,                  // 0    = Destination MAC (broadcast address like any ARP Request)
-    0x84, 0x8F, 0x69, 0xB7, 0x3D, 0x92,                 // 6    = Source MAC (that's what i change as MAC Addresss of PAker Windows Host on TP Link USB Wifi Network Adpater)
+    0x84, 0x8F, 0x69, 0xB7, 0x3D, 0x92,                 // 6    = Source MAC (that's what i change as MAC Addresss of Paker Windows Host on TP Link USB Wifi Network Adpater)
     0x08, 0x06,                                         // 12   = EtherType = ARP
     // ARP
     0x00, 0x01,                                         // 14/0   = Hardware Type = Ethernet (or wifi)
