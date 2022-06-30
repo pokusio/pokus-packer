@@ -292,6 +292,7 @@ netstat -anobq > ./netstat.logs
 * About the issue of installing `arpjs` npm package, because of node-gyp, see : 
   * https://stackoverflow.com/questions/57879150/how-can-i-solve-error-gypgyp-errerr-find-vsfind-vs-msvs-version-not-set-from-c
   * and https://github.com/nodejs/node-gyp#on-windows
+  * https://github.com/node-pcap/node_pcap/issues/224#issuecomment-310177406
 
 <!-- 
 

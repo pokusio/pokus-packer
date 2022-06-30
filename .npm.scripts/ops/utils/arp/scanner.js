@@ -30,7 +30,7 @@ arp.send({
  * Ok there seem to be problems using arpjs on Window, and that 
  *  -> https://github.com/mscdex/cap is better integrated to Windows, and 
  *  -> https://github.com/mscdex/cap allows sending ARP request, just as arpjs! (i tried installing npm i --save cap it works without error !)
- *  
+ *  see https://github.com/node-pcap/node_pcap/issues/224#issuecomment-310177406
  */
 
 
