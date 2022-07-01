@@ -37,6 +37,8 @@
         "ssh_username": "{{ user `ssh_name`}}",
         "ssh_password": "{{ user `ssh_pass`}}",
         "ssh_port": 22,
+        "ssh_host_port_min": 22,
+        "ssh_host_port_max": 22,
         "ssh_host": "{{ user `CreatedVmIPAddr` }}",
         "ssh_timeout": "10000s",
         "shutdown_command": "echo {{user `ssh_pass`}} | sudo -S shutdown -P now",
