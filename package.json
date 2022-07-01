@@ -8,8 +8,8 @@
     "stack": "npm run stack:versions",
     "packer:test": "echo \"Error: no test specified\" && exit 1",
     "packer:build:dev": "bash ./.npm.scripts/ops/dev.sh",
-    "packeer:net:arp:dev": "node ./.npm.scripts/ops/utils/arp/scanner.arp.js",
-    "packeer:net:icmp:dev": "node ./.npm.scripts/ops/utils/arp/scanner.js",
+    "packer:net:arp:dev": "node ./.npm.scripts/ops/utils/arp/scanner.arp.js",
+    "packer:net:icmp:dev": "bash -c \"TARGET_IP_ADDR_TO_PING=${TARGET_IP_ADDR_TO_PING:-'192.168.98.110'} node ./.npm.scripts/ops/utils/arp/scanner.js\"",
     "packer:vm:scan:dev": "bash ./.npm.scripts/ops/utils/windows/get-vbox-vm-ipaddr.sh"
   },
   "repository": {

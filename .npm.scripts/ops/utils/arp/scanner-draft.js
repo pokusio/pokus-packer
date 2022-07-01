@@ -20,7 +20,7 @@
  * 
  * And finaly run this script : 
  * 
- * $ npm run packeer:net:arp:dev
+ * $ npm run packer:net:arp:dev
  * 
  */
  

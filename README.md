@@ -87,8 +87,41 @@ npm run packer:build:dev
 * When the VM has restarted, and `GNU/Linux Debian` is waiting for user login, execute in another git bash session : 
 
 ```bash
+export POKUS_SPIT_FILE=$(pwd)/.catched.vm.ip.address
 npm run packer:vm:scan:dev
+
+# # ---
+# # In the fun network programming, i developed a small module to send ARP request
+# # (could easily be modified to perform arp poisoning) : 
+# npm run packer:net:arp:dev
+
+# ---
+# [npm run packer:net:icmp:dev ]
+# Will ping all IP Addresses in the same network as the
+# IP Address catched for the VM in the ARP tables, for
+# the VBox VM, during the GNU/Linux Debian preseeded automated installation
+# ---
+# 
+
+# --
+# The IP Address catched for the VM in the ARP tables, for
+# the VBox VM, during the GNU/Linux Debian preseeded automated installation
+# export CATCHED_TEMP_IP_ADDR='192.168.98.110'
+export CATCHED_TEMP_IP_ADDR=$(cat ${POKUS_SPIT_FILE})
+export TARGET_IP_ADDR_TO_PING='192.168.98.111'
+npm run packer:net:icmp:dev
+# [npm run packer:net:icmp:dev ] must end by interpolating the /etc/hosts file on Windows, so that packer finally successfully connects
+# i can also end with nmap tests on the remote IP to check ssh port 22 is opened, things like that.
+# btw, i didn't know there was a telnet port open on TP Link
+# Advise : Running Wireshark in parallel makes it really easier to debug, with ARP or ICMP filter
+# TODO : change the global script for it to ping all ip addresses, instead of one specific
+
 ```
+
+<!-- 
+# I did ARP, ICMP, I want to do BGP next, will implement twin with DPDK (java / node / rust : golang)
+-->
+
 
 
 <!--
