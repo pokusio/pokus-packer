@@ -23,6 +23,12 @@ let target_ip_addr_to_ping = process.env.TARGET_IP_ADDR_TO_PING || '192.168.98.1
  * - Ping is the name of utility, which sends ICMP Echo requests to the known host and waits for the response. 
  * - https://blog.ipsumdomus.com/node-js-plain-icmp-ping-implementation-85ac0b319bc2
  * 
+ * 
+ * --
+ * 
+ * 
+ * # For icmp npm package, on Winodows, Window Build Tools is required (see https://www.npmjs.com/package/icmp )
+ * # (JBL I think NpCap won't hurt neither as Nmap and Wireshark)
  */
 
 

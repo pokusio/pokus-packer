@@ -83,7 +83,9 @@ rm ./.pokus_profile
 
 /C/Program\ Files/nodejs/npm i -g node-gyp
 /C/Program\ Files/nodejs/npm i -D node-gyp
-
+# For icmp npm package, on Winodows, Window Build Tools is required (see https://www.npmjs.com/package/icmp )
+# (JBL I think NpCap won't hurt neither as Nmap and Wireshark)
+/C/Program\ Files/nodejs/npm install -g windows-build-tools
 
 
 exit 0
