@@ -29,6 +29,9 @@ let target_ip_addr_to_ping = process.env.TARGET_IP_ADDR_TO_PING || '192.168.98.1
  * 
  * # For icmp npm package, on Winodows, Window Build Tools is required (see https://www.npmjs.com/package/icmp )
  * # (JBL I think NpCap won't hurt neither as Nmap and Wireshark)
+ * another npm package to try : https://www.npmjs.com/package/net-ping
+ * 
+ * Note that i certainly could send ICMP packets using 'cap'
  */
 
 
