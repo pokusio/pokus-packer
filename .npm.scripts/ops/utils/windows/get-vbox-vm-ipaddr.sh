@@ -461,7 +461,9 @@ done
 
 # -+-+-+-
 # remove trailing hyphen
-export FMT_VM_MAC_ADDRESS="${FMT_VM_MAC_ADDRESS:0:$((  ${#FMT_VM_MAC_ADDRESS} - 1))}"
+# export FMT_VM_MAC_ADDRESS=ec-23-d5-34-a5-b4-
+export FMT_VM_MAC_ADDRESS="${FMT_VM_MAC_ADDRESS:0:$(( ${#FMT_VM_MAC_ADDRESS} - 1 )) }"
+# echo "FMT_VM_MAC_ADDRESS=[${FMT_VM_MAC_ADDRESS}]"
 
 echo "  >>> -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- <<< "
 echo "  >>> -+- -+- -+- -+- -+- -+- -+- -+- -+- -+- <<< "

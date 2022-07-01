@@ -28,29 +28,32 @@ export PY3_FOLDER_TO_ADD_IN_PATH=$(ls -alh /C/ | grep Python3 | awk '{print $NF}
 # -> see : https://www.winpcap.org/devel.htm
 # -> see : https://github.com/node-pcap/node_pcap/issues/95#issuecomment-102388747
 # -> see : https://github.com/node-pcap/node_pcap/issues/95
-curl -LO https://www.winpcap.org/install/bin/WpdPack_4_1_2.zip
-
-mkdir -p ./.here_i_have_it/
-
-unzip -d ./.here_i_have_it/ WpdPack_4_1_2.zip
-
-
-mkdir -p $LOCALAPPDATA/Microsoft/MSBuild/Include
-mkdir -p $LOCALAPPDATA/Microsoft/MSBuild/Lib
-
-cp -fR ./.here_i_have_it/WpdPack/Include/* $LOCALAPPDATA/Microsoft/MSBuild/Include
-cp -fR ./.here_i_have_it/WpdPack/Lib/* $LOCALAPPDATA/Microsoft/MSBuild/Lib
-
+#    curl -LO https://www.winpcap.org/install/bin/WpdPack_4_1_2.zip
+# 
+#    mkdir -p ./.here_i_have_it/
+# 
+#    unzip -d ./.here_i_have_it/ WpdPack_4_1_2.zip
+# 
+# 
+#    mkdir -p $LOCALAPPDATA/Microsoft/MSBuild/Include
+#    mkdir -p $LOCALAPPDATA/Microsoft/MSBuild/Lib
+# 
+#    cp -fR ./.here_i_have_it/WpdPack/Include/* $LOCALAPPDATA/Microsoft/MSBuild/Include
+#    cp -fR ./.here_i_have_it/WpdPack/Lib/* $LOCALAPPDATA/Microsoft/MSBuild/Lib
+# 
 
 
 # ---
-# Npcap installation
+# Npcap installation (instead of WinPcap)
 
 curl -LO https://npcap.com/dist/npcap-1.70.exe
-curl -LO https://npcap.com/dist/npcap-0.991.exe
+# curl -LO https://npcap.com/dist/npcap-0.991.exe
 
 # Now to silenty rn the npcap-1.70.exe (an msi installer), see https://npcap.com/guide/npcap-users-guide.html#:~:text=Installs%20Npcap%20without%20showing%20any,available%20only%20for%20Npcap%20OEM.&text=The%20default%20for%20this%20option%20is%20yes%20%2C%20so%20the%20installer,installation%20independent%20from%20this%20option.
 
+
+choco install wireshark && /c/Program\ Files/wireshark/wireshark.exe --version
+choco install nmap && /c/Program\ Files\ \(x86\)/Nmap/nmap.exe --version
 # ---
 # Shell profile addon 
 
@@ -62,7 +65,9 @@ fi;
 cat << EOF >./.pokus_profile
 alias node="/C/Program\ Files/nodejs/node"
 alias npm="/C/Program\ Files/nodejs/npm"
-export PATH="\$PATH:/C/Program\ Files/nodejs/:/C/${PY3_FOLDER_TO_ADD_IN_PATH}"
+alias wireshark="/c/Program\ Files/wireshark/wireshark.exe"
+alias nmap="/c/Program\ Files\ \(x86\)/Nmap/nmap.exe"
+export PATH="\$PATH:/C/Program\ Files/nodejs/:/C/${PY3_FOLDER_TO_ADD_IN_PATH}:/c/Program\ Files/wireshark/:/c/Program\ Files\ \(x86\)/Nmap/"
 EOF
 
 touch ~/.profile
@@ -74,14 +79,10 @@ cat ./.pokus_profile | tee -a ~/.profile
 cat ./.pokus_profile | tee -a ~/.bash_profile
 cat ./.pokus_profile | tee -a ~/.bashrc
 
-exit 0
-if [ -f ~/.profile ]; then
-  rm ~/.profile
-fi;
-cp ./.pokus_profile ~/.profile
 rm ./.pokus_profile
 
-
+/C/Program\ Files/nodejs/npm i -g node-gyp
+/C/Program\ Files/nodejs/npm i -D node-gyp
 
 
 
