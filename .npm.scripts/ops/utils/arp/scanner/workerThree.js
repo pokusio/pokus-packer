@@ -1,15 +1,45 @@
+// const { ping } = require('./iptools');
+const ping = require('./ping');
+
+/**
+ * ---------------------------------
+ * 'Worker' :
+ * ---------------------------------
+ * 
+ * 
+ * ---------------------------------
+ * 
+ **/
+
+// workerData is used for fetching the data from the thread and parentPort is used for manipulating the thread
+const { workerData, parentPort } = require('worker_threads');
+// here workerData  is an array of ip adresses to ping 
+
+// log some stuff
+console.log(` [Pokus] - [Hey I'm Worker Three] HEre are the Ipaddresses and network hosts this worker is gonna ping (send an ICMP echo request) : [ workerData = [${workerData}] ] `);
+
+
+
+
+/**
+ * --------------------------------------------------------------
+ *    Actual IMP work
+ * --------------------------------------------------------------
+ */
+
+
 var level = require('level');    
 var path = require('path');
-
 
 /**
  * level DB use : https://www.yld.io/blog/node-js-databases-using-leveldb/
  * 
  * We might use level db batches to scann all IP addresses ina /24 (255  different IP addresses)
  * 
+ * each worker will write to the database. The database is a singleton, should id not be handed over to worker as theyr are instantiated ?
+ * Will the Level DB Singleton be thread-safe ?
  */
 var db = require('./db');
-
 
 
 
@@ -18,10 +48,7 @@ var db = require('./db');
  * 
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  */
-const NEIGHBOORHOOD_CENTER = process.env.POKUS_NEIGHBOORHOOD_CENTER_IPADDR || '192.168.98.202'
-let src_ip_addr = '10.105.50.100'
-console.log(`process.env.TARGET_IP_ADDR_TO_PING   is ${process.env.TARGET_IP_ADDR_TO_PING}`)
-let target_ip_addr_to_ping = process.env.TARGET_IP_ADDR_TO_PING || '192.168.98.157'
+
 
 // this will be like sending a ping to a given IP address
 // I need to run a lot of pings as quickly as possible, so in multithreading : https://medium.com/@mohllal/node-js-multithreading-a5cd74958a67
@@ -55,29 +82,16 @@ let target_ip_addr_to_ping = process.env.TARGET_IP_ADDR_TO_PING || '192.168.98.1
 
 
 var icmp = require('icmp');
-icmp.send(`${target_ip_addr_to_ping}`, "Hey, I'm pokus!")
-.then(obj => {
-    console.log(`JBL : ICMP REQUEST SENT NO ERROR  `)
-    /*
-    if (obj.open) {
-        console.log(`JBL I did receive the ICMP answer : `)
-        console.log(JSON.stringify(obj, ' ', 4))
-    } else {
-        console.log(`JBL I did receive the ICMP answer : `)
-        console.log(JSON.stringify(obj, ' ', 4))
-    }
-    */
-    if (obj.open) {
-        console.log(`JBL I successfully pinged [${obj.host}] `)
-        console.log(`JBL I discovered [obj.host]=[${obj.host}], and is [obj.ip]=[${obj.ip}] `)
-    } else {
-        console.log(`JBL I failed to ping [${obj.host}] :  `)
-        console.log(`JBL [${obj.host}] is probably not assigned in this network `)
-    }
-    console.log(`JBL ICMP Response code is : [${obj.code}] `)
-    // console.log(obj.open ? 'Done' : 'Failed')
-})
-.catch(err => {
-    console.log(`JBL : ICMP REQUEST SENT WITH ERRORS!!! :  `)
-    console.log(err)
-});
+
+for ( i = 0 ; i < workerData.length ; i++ ) {
+    ping(workerData[i]);
+}
+
+/**
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+ *   Finishing worker
+ */
+
+// The postMessage() method is used for posting the given message in the console by taking the filename as fetched by workerData
+parentPort.postMessage({ ipaddressesAndHosts: workerData, status: 'Scanned'});
+

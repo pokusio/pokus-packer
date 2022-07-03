@@ -10,7 +10,9 @@
     "packer:build:dev": "bash ./.npm.scripts/ops/dev.sh",
     "packer:net:arp:dev": "node ./.npm.scripts/ops/utils/arp/scanner.arp.js",
     "packer:net:icmp:dev": "bash -c \"TARGET_IP_ADDR_TO_PING=${TARGET_IP_ADDR_TO_PING:-'192.168.98.110'} node ./.npm.scripts/ops/utils/arp/scanner.js\"",
-    "packer:vm:scan:dev": "bash ./.npm.scripts/ops/utils/windows/get-vbox-vm-ipaddr.sh"
+    "packer:net:multi:dev": "bash -c \"TARGET_IP_ADDR_TO_PING=${TARGET_IP_ADDR_TO_PING:-'192.168.98.110'} node ./.npm.scripts/ops/utils/arp/scanner/index.js\"",  
+    "packer:vm:scan:dev": "bash ./.npm.scripts/ops/utils/windows/get-vbox-vm-ipaddr.sh",
+    "dev": "npm run packer:net:multi:dev"
   },
   "repository": {
     "type": "git",
@@ -25,7 +27,8 @@
   "homepage": "https://github.com/pokusio/pokus-packer#readme",
   "dependencies": {
     "cap": "^0.2.1",
-    "icmp": "^2.0.1"
+    "icmp": "^2.0.1",
+    "level": "^8.0.0"
   },
   "devDependencies": {
     "node-gyp": "^9.0.0"
