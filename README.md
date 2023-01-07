@@ -22,6 +22,8 @@ This is a repo to design different very useful VM images
 ## How to build images
 
 
+<!--
+
 ### Unbuntu 64
 
 ```bash
@@ -76,7 +78,38 @@ Now :
 
 * note that `./.npm.scripts/ops/utils/windows/create-vm-usb-wifi-net-adapter.sh` script purpose is to test the `vboxmanage modifyvm` commands to create the network interfaces of the VM
 
-### Debian 64 (Reloaded)
+-->
+
+### Debian 64 (Reloaded - that's the only one almost working)
+
+Currently, this `packer` build is the most advanced i have : 
+* I am working on a **networking issue** occuring during the `packer` build process.
+* Before working on this networking issue during `packer` build, I first : 
+  * started using `export PACKER_LOG=1` to get `packer` debug logs while running the `packer` build in dev mode `npm run packer:build:dev`
+  * I experienced errors caused by using a separate packer variables file : 
+  * I have to use `packer` `1.6.6`+ , to be able to use `ssh_host` variable (I do want, to use that `ssh_host` options).
+  * but with `packer` `1.6.6`+ , there are issues using a separate `packer` variables dedicated file (a json files containing only variables), see https://github.com/hashicorp/packer/pull/8914
+  * So, to get rid of the use of a separated variable file, I merged the separate packer variables a dedicated file (a json files containing only variables), with the packer image main definition file `./debian_bullseye_64/debian_hugo_64.json` 
+
+Now, about the **networking issue** occuring during the `packer` build process :
+
+* to discover my VirtualBox Host Network Interface, i run : 
+
+```bash
+./.npm.scripts/ops/utils/windows/get-vbox-host-net-interface.sh
+
+```
+
+* to discover my VirtualBox VM IP Adress, i run : 
+
+```bash
+
+./.npm.scripts/ops/utils/windows/get-vbox-vm-ipaddr.sh
+
+```
+
+* note that `./.npm.scripts/ops/utils/windows/create-vm-usb-wifi-net-adapter.sh` script purpose is to test the `vboxmanage modifyvm` commands to create the network interfaces of the VM.
+
 
 * Packer build the Virtual Box images : 
 
@@ -356,3 +389,31 @@ arp -a
 history
 
 -->
+
+
+## Annex Z: A Decisive Networking information
+
+* I run a packer `virtualbox-iso` build : 
+  * with only one network interface setup
+> 
+> This is because of how `VirtualBox` NAT networks work. From the host you can't reach the guest VM directly. `Packer` solves this by setting up port forwarding rule. A random port between `ssh_host_port_min` and `ssh_host_port_max` is forwarded to the guest VMs `ssh_port`.
+> 
+> If you want to turn this of set `ssh_skip_nat_mapping` to `true`, but then you have to ensure that you have a network setup where `Packer` can reach the guest.
+> 
+> 
+> _Quote from_ https://stackoverflow.com/questions/56527682/packer-ssh-communicator-ignores-ssh-port
+> 
+
+ ## ANNEX ZZ : Paravirtualization Interface for Windows 10
+
+I experienced many virtualbox issue after installing / uninstalling Docker Desktop for Windows (it messed up with the paravirtualization of course, and the uninstallation, as always with Microsoft, is not idempotent, it does not take you back to the exact point you were)
+
+This resulted that all my VirtualBox VMs failed to start again.
+
+
+So I had to consider re-installing the paravirtualization Interface : yet i had another issue, i did not check what paravirtualization interface i used to create my VM images with `Packer`...
+
+* https://learn.microsoft.com/en-US/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v
+
+
+* Note I also, several weeks later, tried many Windows tips to "repair" , and even improve virtualbox performance on Windows : https://github.com/pokusio/virtualbox-operator/issues/2
